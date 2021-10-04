@@ -8,6 +8,16 @@ form {
   /* text-align: left; */
 }
 
+button {
+  background: '#ff0000';
+	color: '#fff';
+  border: 'none';
+  padding: '5px 8px';
+  border-radius: '50%';
+  cursor: 'pointer';
+  float: 'right';
+}
+
 .tasks {
   width: 50%;
   margin-left: 25%;

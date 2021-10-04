@@ -8,15 +8,30 @@ import { Todo } from './Todo';
 function App() {
 
   const [tasks, setTasks] = useState(Array())
+  const [taskID, setTaskID] = useState(1)
 
-  function createTask(taskTitle: string) {
-    let newTask = <Todo title={taskTitle} complete={false}/>
-    let newTasks = tasks.concat([newTask])
+  const deleteTask = (taskId: number) => {
+    let newTasks = tasks.filter(task => task.id !== taskId)
     setTasks(newTasks)
   }
 
-  const markComplete = () => {
+  function createTask(taskTitle: string) {
+    let newTask = {
+                  element: <Todo 
+                  title={taskTitle} 
+                  complete={false} 
+                  id={taskID}
+                  deleteTask={deleteTask}/>,
+                  id: taskID
+                }
+    let newTasks = tasks.concat([newTask])
+    setTasks(newTasks)
+    setTaskID(taskID + 1)
+  }
 
+  function displayTasks() {
+    let elements = tasks.map(task => task.element)
+    return elements
   }
 
   return (
@@ -24,7 +39,7 @@ function App() {
       <Header/>
       <AddToDo createTask={createTask}/>
       <div className="tasks">
-        {tasks}
+          {displayTasks()}
       </div>
       
     </div>
