@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Header } from './Header';
@@ -11,35 +11,36 @@ function App() {
   const [taskID, setTaskID] = useState(1)
 
   const deleteTask = (taskId: number) => {
-    let newTasks = tasks.filter(task => task.id !== taskId)
+    const newTasks = tasks.filter(task => task.id !== taskId)
     setTasks(newTasks)
   }
 
-  function createTask(taskTitle: string) {
-    let newTask = {
-                  element: <Todo 
-                  title={taskTitle} 
-                  complete={false} 
-                  id={taskID}
-                  deleteTask={deleteTask}/>,
-                  id: taskID
-                }
-    let newTasks = tasks.concat([newTask])
+  const createTask = (taskTitle: string) => {
+    const i = taskID
+    const newTask = {
+                      title: taskTitle,
+                      complete: false, 
+                      id: i,
+                      key: i    
+                    }
+    const newTasks = tasks.concat(Array(newTask))
     setTasks(newTasks)
     setTaskID(taskID + 1)
   }
 
-  function displayTasks() {
-    let elements = tasks.map(task => task.element)
-    return elements
-  }
 
   return (
     <div className="App">
       <Header/>
       <AddToDo createTask={createTask}/>
       <div className="tasks">
-          {displayTasks()}
+          {tasks.map(task => <Todo
+                              title={task.title}
+                              complete={task.complete}
+                              id={task.id}
+                              deleteTask={deleteTask}
+                              key={task.id}
+                            />)}
       </div>
       
     </div>
